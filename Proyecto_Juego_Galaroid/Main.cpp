@@ -158,7 +158,7 @@ int main() {
 	ALLEGRO_BITMAP* ImagenAsteroide = al_load_bitmap("Assets/Asteroide.png");
 	ALLEGRO_BITMAP* Fondo = al_load_bitmap("Assets/Fondo.jpg");
 	ALLEGRO_BITMAP* Fondomenu = al_load_bitmap("Assets/FondoMenu.png");
-	ALLEGRO_BITMAP* ImagenesExplosion[40];
+	ALLEGRO_BITMAP* ImagenesExplosion[6];
 	//************************************** Imagenes para animar las explociones
 	ImagenesExplosion[0] = al_load_bitmap("Assets/EXP1.png");
 	ImagenesExplosion[1] = al_load_bitmap("Assets/EXP2.png");
@@ -179,6 +179,8 @@ int main() {
 	jugador.angulo = 0;
 	jugador.dx = 0;
 	jugador.dy = 0;
+
+
 
 	//***********************Creacion de estructuras y declaracion de variables
 	std::vector<PtrBala> Balas;
@@ -306,7 +308,6 @@ int main() {
 	int b = 0;
 
 	while (finjuego) { //Se imprime el final del juego con todas las estadisticas de la partida.
-		cout << stats.mejor_puntaje << endl;
 		r += 30;
 		g += 1;          ///Variables para uso dar efecto multicolor
 		b += 50;
@@ -352,6 +353,18 @@ int main() {
 		Guardarestadisticas(stats);
 
 	}
-
+	al_destroy_display(display);
+    al_destroy_font(gameFont);
+	al_destroy_font(fuente2);
+	al_destroy_font(fuente3);
+    al_destroy_event_queue(cola_eventos);
+    al_destroy_bitmap(ImagenBala);
+    al_destroy_bitmap(ImagenAsteroide);
+	al_destroy_bitmap(Fondo);
+	al_destroy_bitmap(Fondomenu);
+	for (int z = 0; z<6; z++){
+		    al_destroy_bitmap(ImagenesExplosion[z]);
+	}
+    al_destroy_timer(timer);
 	return 0;
 }
