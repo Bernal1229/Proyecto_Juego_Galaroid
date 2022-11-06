@@ -30,6 +30,7 @@ using namespace std;
 //*******Funciones de juego
 
 void RecibirTeclasPresionadas(ALLEGRO_EVENT evento, Jugador& jugador, std::vector<PtrBala>& Balas) {
+	//Ver las teclas presionadas por el ususario en el ciclo de eventos en el cual se desarrolla el juego como tal
 	switch (evento.keyboard.keycode) {
 	case ALLEGRO_KEY_RIGHT:
 		jugador.rotacion_derecha = true;
@@ -81,7 +82,7 @@ void CargarMejorPuntaje(Estadisticas& stats) {
 
 	FILE* archivo;
 	fopen_s(&archivo, "MejorPuntaje.txt", "r+");
-	if (NULL == archivo) {
+	if (NULL == archivo) {// implica que nunca se ha jugado, y el record es 0
 		stats.mejor_puntaje = 0;
 		return;
 	}
@@ -94,8 +95,6 @@ void CargarMejorPuntaje(Estadisticas& stats) {
 		}
 	}
 	fclose(archivo);
-
-	cout << stats.mejor_puntaje << endl;
 }
 
 
@@ -148,7 +147,7 @@ int main() {
 	ALLEGRO_BITMAP* Fondo = al_load_bitmap("Assets/Fondo.jpg");
 	ALLEGRO_BITMAP* Fondomenu = al_load_bitmap("Assets/FondoMenu.png");
 	ALLEGRO_BITMAP* ImagenesExplosion[40];
-
+	//************************************** Imagenes para animar las explociones
 	ImagenesExplosion[0] = al_load_bitmap("Assets/EXP1.png");
 	ImagenesExplosion[1] = al_load_bitmap("Assets/EXP2.png");
 	ImagenesExplosion[2] = al_load_bitmap("Assets/EXP3.png");
@@ -168,7 +167,6 @@ int main() {
 	jugador.angulo = 0;
 	jugador.dx = 0;
 	jugador.dy = 0;
-	//Bala************************************************
 
 	//***********************Creacion de estructuras y declaracion de variables
 	std::vector<PtrBala> Balas;
@@ -267,10 +265,10 @@ int main() {
 		}
 		dibujarenemigos(Enemigos, ImagenAsteroide); //Se dibujan los enemigos.
 		Actualizarenemigos(Enemigos, stats);//Se actualizan las caracteristicas de los enemigos.
-		GenerarExplosion(Enemigos, Explosiones);
-		AnimarExplosion(Explosiones);
-		DrawExplosion(ImagenesExplosion, Explosiones);
-		BorrarExplosiones(Explosiones);
+		GenerarExplosion(Enemigos, Explosiones); //Funcion para detectar colisiones y generar explosiones
+		AnimarExplosion(Explosiones); //Funcion para animar explosiones.
+		DrawExplosion(ImagenesExplosion, Explosiones); //Funcion para dibujar explosiones.
+		BorrarExplosiones(Explosiones); //Funcion para borrar las explosiones usadas.
 
 
 		EliminarEnemigo(Enemigos); //Se eliminan los enemigos inactivos
@@ -298,15 +296,19 @@ int main() {
 	while (finjuego) { //Se imprime el final del juego con todas las estadisticas de la partida.
 		cout << stats.mejor_puntaje << endl;
 		r += 30;
-		g += 1;
+		g += 1;          ///Variables para uso dar efecto multicolor
 		b += 50;
 		if (r == 255) r = 0;
 		if (g == 255) g = 0;
 		if (b == 255) b = 0;
 		ALLEGRO_EVENT Evento;
 		al_wait_for_event(cola_eventos, &Evento);
-		al_flip_display();
+		al_flip_display();                                     
 		al_clear_to_color(al_map_rgb(0, 0, 0));
+
+		//Se imprime el fin del juego con las estadisticas de la partida y se muestra si se obtuvo un mejor puntaje que el guardado como mejor. 
+
+
 		al_draw_textf(gameFont, al_map_rgb(255, 255, 255), ANCHO_PANTALLA / 2, ALTO_PANTALLA / 12 * 3, ALLEGRO_ALIGN_CENTER, "Fin del juego");
 		al_draw_textf(gameFont, al_map_rgb(255, 255, 255), ANCHO_PANTALLA / 2, ALTO_PANTALLA / 12 * 4, ALLEGRO_ALIGN_CENTER, "Meteoritos destruidos: %i", stats.meteoritos_destruidos);
 		al_draw_textf(gameFont, al_map_rgb(255, 255, 255), ANCHO_PANTALLA / 2, ALTO_PANTALLA / 12 * 5, ALLEGRO_ALIGN_CENTER, "Nivel alcanzado: %i", stats.nivel);
@@ -330,6 +332,8 @@ int main() {
 			}
 		}
 	}
+
+	//Si se rompe el record, se guarda el valor de meteoritos destruidos como el mejor record.
 
 	if (stats.meteoritos_destruidos > stats.mejor_puntaje) {
 

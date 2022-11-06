@@ -7,7 +7,7 @@
 
 
 
-void instrucciones(ALLEGRO_EVENT_QUEUE* cola_eventos, ALLEGRO_FONT* fuente1) {
+void instrucciones(ALLEGRO_EVENT_QUEUE* cola_eventos, ALLEGRO_FONT* fuente1) { //En esta función, unicamente se imprimen als instrucciones generales del juego.
 
 	ALLEGRO_TIMER* timer = al_create_timer(1.0 / 60);
 	al_register_event_source(cola_eventos, al_get_timer_event_source(timer));
@@ -18,6 +18,9 @@ void instrucciones(ALLEGRO_EVENT_QUEUE* cola_eventos, ALLEGRO_FONT* fuente1) {
 		ALLEGRO_EVENT Evento;
 		al_wait_for_event(cola_eventos, &Evento);
 		al_clear_to_color(al_map_rgb(0, 0, 0));
+
+		//Se imprimen las instrucciones.
+
 		al_draw_textf(fuente1, al_map_rgb(255, 255, 255), ANCHO_PANTALLA / 2.0, (ALTO_PANTALLA) / 20, ALLEGRO_ALIGN_CENTER, "Bienvenido a Galaroid");
 		al_draw_textf(fuente1, al_map_rgb(255, 255, 255), ANCHO_PANTALLA / 2.0, ((ALTO_PANTALLA) / 20) * 10, ALLEGRO_ALIGN_CENTER, "En este juego debes destuir meteoritos al dispararles con la nave.");
 		al_draw_textf(fuente1, al_map_rgb(255, 255, 255), ANCHO_PANTALLA / 2.0, ((ALTO_PANTALLA) / 20) * 11, ALLEGRO_ALIGN_CENTER, "Esta se controla con las flechas del teclado y con la tecla de espacio se dispara.");

@@ -1,6 +1,5 @@
 #pragma once
-#pragma once
-
+//Variables pertinentes, utilizadas simultaneamente por varias estructuras
 const int ANCHO_PANTALLA = 1500;
 const int ALTO_PANTALLA = 900;
 const float VELOCIDAD_BALA = 12;

@@ -5,18 +5,18 @@
 #include <iostream>
 
 void Mover(Jugador& jugador) {  //Funcion para mover el jugador
-	if (jugador.acelerando) {
+	if (jugador.acelerando) { //simula la aceleracion
 		jugador.dy -= 0.1 * jugador.velocidad * cos(jugador.angulo);
 		jugador.dx += 0.1 * jugador.velocidad * sin(jugador.angulo);
 	}
-	if (jugador.rotacion_derecha) {
+	if (jugador.rotacion_derecha) { //rotacion derecha
 		jugador.angulo += 0.1;
 	}
-	if (jugador.rotacion_izquierda) {
+	if (jugador.rotacion_izquierda) { //rotacion izquierda
 		jugador.angulo -= 0.1;
 	}
-	jugador.X += jugador.dx;
-	jugador.Y += jugador.dy;
+	jugador.X += jugador.dx; //se mueve el jugador en X, de acuerdo con su velocidad
+	jugador.Y += jugador.dy; //se mueve el jugador en Y, de acuerdo con su velociad
 
 }
 
